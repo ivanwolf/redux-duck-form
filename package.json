@@ -2,9 +2,21 @@
   "name": "redux-simple-form",
   "version": "0.1.0",
   "description": "Manage your form state in the store",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ivanwolf15/redux-simple-form.git"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "watch 'yarn build' src",
+    "build": "babel src -d dist",
+    "test": "jest",
+    "test:watch": "yarn test -- --watch"
+  },
+  "babel": {
+    "presets": [
+      "latest"
+    ]
   },
   "keywords": [
     "redux",
@@ -16,5 +28,15 @@
   "dependencies": {
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0"
+  },
+  "bugs": {
+    "url": "https://github.com/ivanwolf15/redux-simple-form/issues"
+  },
+  "homepage": "https://github.com/ivanwolf15/redux-simple-form#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-latest": "^6.24.1",
+    "jest": "^21.2.1",
+    "watch": "^1.0.2"
   }
 }
