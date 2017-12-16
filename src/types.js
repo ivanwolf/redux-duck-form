@@ -1,0 +1,9 @@
+const SET_FIELD_VALUE = 'simple-form/SET_FIELD_VALUE';
+const VALIDATION_ERROR = 'simple-form/VALIDATION_ERROR';
+const CLEAR_FIELD = 'simple-form/CLEAR_FIELD';
+
+export {
+  SET_FIELD_VALUE,
+  VALIDATION_ERROR,
+  CLEAR_FIELD,
+};
