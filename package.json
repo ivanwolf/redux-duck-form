@@ -13,11 +13,6 @@
     "test": "jest",
     "test:watch": "yarn test -- --watch"
   },
-  "babel": {
-    "presets": [
-      "latest"
-    ]
-  },
   "keywords": [
     "redux",
     "redux-duck",
@@ -26,6 +21,7 @@
   "author": "Iván Wolf",
   "license": "ISC",
   "dependencies": {
+    "babel-preset-env": "^1.6.1",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0"
   },
@@ -36,7 +32,6 @@
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
-    "babel-preset-latest": "^6.24.1",
     "clean-webpack-plugin": "^0.1.17",
     "eslint": "^4.13.1",
     "eslint-config-airbnb-base": "^12.1.0",

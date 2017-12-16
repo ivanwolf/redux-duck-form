@@ -18,7 +18,7 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['latest'],
+            presets: ['env'],
           },
         },
       },
