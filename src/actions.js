@@ -3,24 +3,26 @@ import * as types from './types';
 const setFieldValue = formName => (fieldName, value) => ({
   type: types.SET_FIELD_VALUE,
   payload: {
+    value,
+  },
+  meta: {
     formName,
     fieldName,
-    value,
   },
 });
 
 const validationError = formName => (fieldName, error) => ({
   type: VALIDATION_ERROR,
-  payload: {
+  meta: {
     formName,
     fieldName,
-    error,
   },
+  error,
 });
 
 const clearField = formName => fieldName => ({
   type: types.CLEAR_FIELD,
-  payload: {
+  meta: {
     formName,
     fieldName,
   },
