@@ -1,0 +1,20 @@
+{
+  "name": "redux-simple-form",
+  "version": "0.1.0",
+  "description": "Manage your form state in the store",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "redux",
+    "redux-duck",
+    "reducer-creator"
+  ],
+  "author": "Iván Wolf",
+  "license": "ISC",
+  "dependencies": {
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0"
+  }
+}
