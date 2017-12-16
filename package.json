@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "watch 'yarn build' src",
-    "build": "babel src -d dist",
+    "build": "webpack",
     "test": "jest",
     "test:watch": "yarn test -- --watch"
   },
@@ -26,7 +26,6 @@
   "author": "Iván Wolf",
   "license": "ISC",
   "dependencies": {
-    "eslint": "^4.13.1",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0"
   },
@@ -35,11 +34,15 @@
   },
   "homepage": "https://github.com/ivanwolf15/redux-simple-form#readme",
   "devDependencies": {
-    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
     "babel-preset-latest": "^6.24.1",
+    "clean-webpack-plugin": "^0.1.17",
+    "eslint": "^4.13.1",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
     "jest": "^21.2.1",
-    "watch": "^1.0.2"
+    "watch": "^1.0.2",
+    "webpack": "^3.10.0"
   }
 }
