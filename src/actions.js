@@ -1,7 +1,12 @@
-import * as types from './types';
+import {
+  SET_FIELD_VALUE,
+  VALIDATION_ERROR,
+  VALIDATION_SUCCESS,
+  CLEAR_FIELD,
+} from './types';
 
 const setFieldValue = formName => (fieldName, value) => ({
-  type: types.SET_FIELD_VALUE,
+  type: SET_FIELD_VALUE,
   payload: {
     value,
   },
@@ -20,8 +25,16 @@ const validationError = formName => (fieldName, error) => ({
   error,
 });
 
+const validationSuccess = formName => fieldName => ({
+  type: VALIDATION_SUCCESS,
+  meta: {
+    formName,
+    fieldName,
+  },
+});
+
 const clearField = formName => fieldName => ({
-  type: types.CLEAR_FIELD,
+  type: CLEAR_FIELD,
   meta: {
     formName,
     fieldName,
@@ -31,5 +44,6 @@ const clearField = formName => fieldName => ({
 export {
   setFieldValue,
   validationError,
+  validationSuccess,
   clearField,
 };

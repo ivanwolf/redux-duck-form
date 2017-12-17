@@ -1,38 +1,77 @@
-import * as actions from './actions';
+import { validationSuccess, validationError } from './actions';
+
+export { setFieldValue } from './actions';
 
 /* extract values from fileds */
 const values = (fields) => {
-  const values = {};
+  const val = {};
   Object.keys(fields).forEach((key) => {
-    values[key] = fields[key].value;
+    val[key] = fields[key].value;
   });
-  return values;
+  return val;
 };
 
 /* extract errors from fields */
 const erros = (fields) => {
-  const errors = {};
+  const err = {};
   Object.keys(fields).forEach((key) => {
-    errors[key] = fields[key].error;
+    err[key] = fields[key].error;
   });
-  return errors;
+  return err;
 };
 
+/* extract ${formName}'s fields from global state using a selector */
+const getFields = (formName, selector, getState) => {
+  if (selector && typeof selector !== 'function') {
+    throw new Error('selector expected to be a function');
+  }
+  try {
+    return selector ? selector(getState())[formName] : getState()[formName];
+  } catch (err) {
+    throw new Error(`There is no reducer called ${formName}`);
+  }
+};
 
-const setFieldValue = actions.setFieldValue;
+const getValue = (fields, fieldName) => {
+  const value = fields[fieldName];
+  if (value !== undefined) return value;
+  throw new Error(`Form has no ${fieldName} field`);
+};
+
 
 /* Receive two functions similar interface as promises */
 export const submitForm = (formName, selector = null) => (onSubmit, onError) => (
   (dispatch, getState) => {
-    if (selector && typeof selector !== 'function') {
-      throw new Error('selector expected to be a function');
-    }
-    try {
-      const fields = selector ? selector(getState())[formName] : getState()[formName];
-    } catch (err) {
-      throw new Error(`There is no reducer called ${formName}`);
-    }
-    onSubmit(values(fields));
+    const fields = getFields(formName, selector, getState);
+
+    const validForm = Object.values(fields).reduce((valid, field) => (
+      valid && (field.opional || field.valid)
+    ), true);
+
+    if (validForm) onSubmit(values(fields));
+    else onError(values(fields));
   }
-)
+);
+
+export const validateField = (formName, selector = null) => (fieldName, validator) => (
+  async (dispatch, getState) => {
+    const fields = getFields(formName, selector, getState);
+    const value = getValue(fields, fieldName);
+    if (typeof validator === 'function') {
+      const error = validator(value);
+      if (error) {
+        dispatch(validationError(formName)(fieldName, error));
+      } else {
+        dispatch(validationSuccess(formName)(fieldName));
+      }
+    } else if (typeof validator.then === 'function') {
+      try {
+        await validator(value);
+        dispatch(validationSuccess(formName)(fieldName));
+      } catch (err) {
+        dispatch(validationError(formName)(fieldName, err));
+      }
+    }
+  }
+);
 
