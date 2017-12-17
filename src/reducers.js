@@ -12,7 +12,7 @@ const createInitalState = (optional = false) => ({
 
 /* state is the initialState created above */
 const createFieldReducer = (fieldName, initialState) => {
-  const value = (state, action) => {
+  const value = (state = initialState.value, action) => {
     switch (action.type) {
       case types.SET_FIELD_VALUE:
         return action.payload.value;
@@ -23,7 +23,7 @@ const createFieldReducer = (fieldName, initialState) => {
     }
   };
 
-  const error = (state, action) => {
+  const error = (state = initialState.error, action) => {
     switch (action.type) {
       case types.VALIDATION_ERROR:
         return action.error;
@@ -35,7 +35,7 @@ const createFieldReducer = (fieldName, initialState) => {
     }
   };
 
-  const touched = (state, action) => {
+  const touched = (state = initialState.touched, action) => {
     switch (action.type) {
       case types.SET_FIELD_VALUE:
         return true;
@@ -46,12 +46,12 @@ const createFieldReducer = (fieldName, initialState) => {
     }
   };
 
-  const optional = (state, action) => state;
+  const optional = (state = initialState.optional, action) => state;
 
-  const valid = (state, action) => state;
+  const valid = (state = initialState.valid, action) => state;
 
-  return (state = initialState, action) => {
-    if (action.meta.fieldName !== fieldName) return state;
+  return (state, action) => {
+    if (action.meta && action.meta.fieldName !== fieldName) return state;
     return combineReducers({
       value,
       error,
@@ -75,16 +75,20 @@ const fields = [
 
 const createFormReducer = (formName, fields) => {
   const reducers = {};
+  const initalState = {};
+
   fields.forEach((key) => {
     if (typeof key === 'string') {
+      initalState[key] = createInitalState();
       reducers[key] = createFieldReducer(key, createInitalState());
     } else {
+      initalState[key.name] = createInitalState(key.optional);
       reducers[key.name] = createFieldReducer(key.name, createInitalState(key.optional));
     }
   });
 
   return (state, action) => {
-    if (formName !== action.meta.formName) return state;
+    if (action.meta && formName !== action.meta.formName) return state;
     return combineReducers(reducers)(state, action);
   };
 };
