@@ -1,5 +1,10 @@
 import { combineReducers } from 'redux';
-import * as types from './types';
+import {
+  SET_FIELD_VALUE,
+  VALIDATION_ERROR,
+  VALIDATION_SUCCESS,
+  CLEAR_FIELD,
+} from './types';
 
 const createInitalState = (optional = false) => ({
   value: '',
@@ -14,9 +19,9 @@ const createInitalState = (optional = false) => ({
 const createFieldReducer = (fieldName, initialState) => {
   const value = (state = initialState.value, action) => {
     switch (action.type) {
-      case types.SET_FIELD_VALUE:
+      case SET_FIELD_VALUE:
         return action.payload.value;
-      case types.CLEAR_FIELD:
+      case CLEAR_FIELD:
         return '';
       default:
         return state;
@@ -25,10 +30,11 @@ const createFieldReducer = (fieldName, initialState) => {
 
   const error = (state = initialState.error, action) => {
     switch (action.type) {
-      case types.VALIDATION_ERROR:
+      case VALIDATION_ERROR:
         return action.error;
-      case types.CLEAR_FIELD:
-      case types.SET_FIELD_VALUE:
+      case CLEAR_FIELD:
+      case VALIDATION_SUCCESS:
+      case SET_FIELD_VALUE:
         return null;
       default:
         return state;
@@ -37,9 +43,9 @@ const createFieldReducer = (fieldName, initialState) => {
 
   const touched = (state = initialState.touched, action) => {
     switch (action.type) {
-      case types.SET_FIELD_VALUE:
+      case SET_FIELD_VALUE:
         return true;
-      case types.CLEAR_FIELD:
+      case CLEAR_FIELD:
         return false;
       default:
         return state;
@@ -48,7 +54,18 @@ const createFieldReducer = (fieldName, initialState) => {
 
   const optional = (state = initialState.optional, action) => state;
 
-  const valid = (state = initialState.valid, action) => state;
+  const valid = (state = initialState.valid, action) => {
+    switch (action.type) {
+      case VALIDATION_SUCCESS:
+        return true;
+      case VALIDATION_ERROR:
+        return false;
+      case CLEAR_FIELD:
+        return false;
+      default:
+        return state;
+    }
+  };
 
   return (state, action) => {
     if (action.meta && action.meta.fieldName !== fieldName) return state;
