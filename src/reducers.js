@@ -6,7 +6,7 @@ import {
   CLEAR_FIELD,
 } from './types';
 
-const createInitalState = (optional = false) => ({
+export const createInitalState = (optional = false) => ({
   value: '',
   error: null,
   touched: false,
@@ -16,7 +16,7 @@ const createInitalState = (optional = false) => ({
 
 
 /* state is the initialState created above */
-const createFieldReducer = (fieldName, initialState) => {
+export const createFieldReducer = (fieldName, initialState) => {
   const value = (state = initialState.value, action) => {
     switch (action.type) {
       case SET_FIELD_VALUE:
