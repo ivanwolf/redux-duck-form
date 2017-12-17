@@ -1,12 +1,12 @@
 import createFormReducer from './reducers';
-import * as simpleFormTypes from './types';
-import * as simpleFormActions from './actions';
-import * as simpleFormOperations from './operations';
+import * as types from './types';
+import * as actions from './actions';
+import * as operations from './operations';
 
 export {
-  simpleFormActions,
-  simpleFormOperations,
-  simpleFormTypes,
+  actions,
+  operations,
+  types,
 };
 
 export default createFormReducer;

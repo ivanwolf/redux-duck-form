@@ -6,6 +6,8 @@ module.exports = {
   output: {
     path: path.resolve('dist'),
     filename: 'index.js',
+    library: 'redux-simple-form',
+    libraryTarget: 'commonjs-module',
   },
   plugins: [
     new CleanWebpackPlugin(['dist']),
