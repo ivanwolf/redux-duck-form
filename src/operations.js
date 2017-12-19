@@ -12,7 +12,7 @@ const values = (fields) => {
 };
 
 /* extract errors from fields */
-const erros = (fields) => {
+const errors = (fields) => {
   const err = {};
   Object.keys(fields).forEach((key) => {
     err[key] = fields[key].error;
@@ -33,13 +33,18 @@ const getFields = (formName, selector, getState) => {
 };
 
 const getValue = (fields, fieldName) => {
-  const value = fields[fieldName];
+  const { value } = fields[fieldName];
   if (value !== undefined) return value;
   throw new Error(`Form has no ${fieldName} field`);
 };
 
 
-/* Receive two functions similar interface as promises */
+/**
+ * Receive two functions onSubmit, onError, similar interface as promises.
+ * Check if the form is valid (based on previus validation)
+ * onSubmit function is called with the values and dispatch as arguments
+ * onError function is called with the errors and dispatch as arguments
+*/
 export const submitForm = (formName, selector = null) => (onSubmit, onError) => (
   (dispatch, getState) => {
     const fields = getFields(formName, selector, getState);
@@ -48,28 +53,29 @@ export const submitForm = (formName, selector = null) => (onSubmit, onError) => 
       valid && (field.opional || field.valid)
     ), true);
 
-    if (validForm) onSubmit(values(fields));
-    else onError(values(fields));
+    if (validForm) onSubmit(values(fields), dispatch);
+    else onError(errors(fields), dispatch);
   }
 );
 
 export const validateField = (formName, selector = null) => (fieldName, validator) => (
-  async (dispatch, getState) => {
+  (dispatch, getState) => {
     const fields = getFields(formName, selector, getState);
     const value = getValue(fields, fieldName);
-    if (typeof validator === 'function') {
-      const error = validator(value);
-      if (error) {
-        dispatch(validationError(formName)(fieldName, error));
+    const validationResult = validator(value);
+    try {
+      return validationResult
+        .then(() => {
+          dispatch(validationSuccess(formName)(fieldName));
+        })
+        .catch((error) => {
+          dispatch(validationError(formName)(fieldName, error));
+        });
+    } catch (err) {
+      if (validationResult) {
+        dispatch(validationError(formName)(fieldName, validationResult));
       } else {
         dispatch(validationSuccess(formName)(fieldName));
-      }
-    } else if (typeof validator.then === 'function') {
-      try {
-        await validator(value);
-        dispatch(validationSuccess(formName)(fieldName));
-      } catch (err) {
-        dispatch(validationError(formName)(fieldName, err));
       }
     }
   }
