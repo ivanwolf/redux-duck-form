@@ -95,7 +95,7 @@ describe('Submit form', () => {
     const onSubmit = jest.fn();
     const onError = jest.fn();
     beforeEach(async () => {
-      /* Create a correct form state */
+      /* Create an incorrect form state */
       const prevStore = mockStore(initialState);
       prevStore.dispatch(setFieldValue(formName)(fieldName, 'ivan@uc.cl'));
       await prevStore.dispatch(runValidator(formName, null)(fieldName, rejectValidator));

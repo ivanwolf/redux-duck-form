@@ -1,3 +1,4 @@
+/* eslint no-undef: 0 */
 import * as actions from '../src/actions';
 import * as types from '../src/types';
 
