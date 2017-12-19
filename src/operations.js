@@ -21,14 +21,15 @@ const errors = (fields) => {
 };
 
 /* extract ${formName}'s fields from global state using a selector */
-const getFields = (formName, selector, getState) => {
+export const getFields = (formName, selector, getState) => {
   if (selector && typeof selector !== 'function') {
     throw new Error('selector expected to be a function');
   }
-  try {
-    return selector ? selector(getState())[formName] : getState()[formName];
-  } catch (err) {
+  const result = selector ? selector(getState())[formName] : getState()[formName];
+  if (result === undefined) {
     throw new Error(`There is no reducer called ${formName}`);
+  } else {
+    return result;
   }
 };
 
@@ -48,17 +49,20 @@ const getValue = (fields, fieldName) => {
 export const submitForm = (formName, selector = null) => (onSubmit, onError) => (
   (dispatch, getState) => {
     const fields = getFields(formName, selector, getState);
+    const validForm = Object.keys(fields).reduce((valid, fieldName) => {
+      const field = fields[fieldName];
+      if (!field.touched && !field.opional) {
+        dispatch(validationError(formName)(fieldName, 'This field is required'));
+      }
+      return valid && (field.opional || field.valid);
+    }, true);
 
-    const validForm = Object.values(fields).reduce((valid, field) => (
-      valid && (field.opional || field.valid)
-    ), true);
-
-    if (validForm) onSubmit(values(fields), dispatch);
-    else onError(errors(fields), dispatch);
+    if (validForm) onSubmit(values(fields));
+    else onError(errors(fields));
   }
 );
 
-export const validateField = (formName, selector = null) => (fieldName, validator) => (
+export const runValidator = (formName, selector = null) => (fieldName, validator) => (
   (dispatch, getState) => {
     const fields = getFields(formName, selector, getState);
     const value = getValue(fields, fieldName);
