@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "watch 'yarn build' src",
     "build": "webpack",
+    "prepublish": "yarn build",
     "test": "jest",
     "test:watch": "yarn test --watch"
   },

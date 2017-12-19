@@ -1,6 +1,5 @@
 import { validationSuccess, validationError } from './actions';
 
-export { setFieldValue } from './actions';
 
 /* extract values from fileds */
 const values = (fields) => {

@@ -1,10 +1,12 @@
 import createFormReducer from './reducers';
-import { submitForm, setFieldValue, validateField } from './operations';
+import { submitForm, runValidator } from './operations';
+import { setFieldValue, clearField } from './actions';
 
 export {
   setFieldValue,
+  clearField,
   submitForm,
-  validateField,
+  runValidator,
 };
 
 export default createFormReducer;
