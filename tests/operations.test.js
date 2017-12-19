@@ -2,9 +2,9 @@
 import { combineReducers } from 'redux';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { runValidator, submitForm, setFieldValue, getFields } from './operations';
-import { validationError, validationSuccess } from './actions';
-import createFormReducer, { createInitalState } from './reducers';
+import { runValidator, submitForm, setFieldValue, getFields } from '../src/operations';
+import { validationError, validationSuccess } from '../src/actions';
+import createFormReducer, { createInitalState } from '../src/reducers';
 
 
 const middlewares = [thunk];

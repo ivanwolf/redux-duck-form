@@ -1,5 +1,5 @@
-import * as actions from './actions';
-import * as types from './types';
+import * as actions from '../src/actions';
+import * as types from '../src/types';
 
 describe('Action creators', () => {
   const formName = 'loginForm';

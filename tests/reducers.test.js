@@ -1,5 +1,5 @@
-import * as actions from './actions';
-import createFormReducer, { createInitalState, createFieldReducer } from './reducers';
+import * as actions from '../src/actions';
+import createFormReducer, { createInitalState, createFieldReducer } from '../src/reducers';
 
 const fields = [
   'email',
