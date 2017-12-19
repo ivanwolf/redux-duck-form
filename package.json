@@ -1,11 +1,11 @@
 {
-  "name": "redux-simple-form",
+  "name": "redux-duck-form",
   "version": "0.2.0",
-  "description": "Manage your form state in the store",
+  "description": "Provides a simple API to manage your form state in the store",
   "main": "dist/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ivanwolf15/redux-simple-form.git"
+    "url": "https://github.com/ivanwolf15/redux-duck-form.git"
   },
   "scripts": {
     "dev": "watch 'yarn build' src",
@@ -17,7 +17,8 @@
   "keywords": [
     "redux",
     "redux-duck",
-    "reducer-creator"
+    "reducer-creator",
+    "action-creators"
   ],
   "author": "Iván Wolf",
   "license": "ISC",
@@ -27,9 +28,9 @@
     "redux-thunk": "^2.2.0"
   },
   "bugs": {
-    "url": "https://github.com/ivanwolf15/redux-simple-form/issues"
+    "url": "https://github.com/ivanwolf15/redux-duck-form/issues"
   },
-  "homepage": "https://github.com/ivanwolf15/redux-simple-form#readme",
+  "homepage": "https://github.com/ivanwolf15/redux-duck-form#readme",
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-jest": "^21.2.0",
