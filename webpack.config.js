@@ -6,8 +6,7 @@ module.exports = {
   output: {
     path: path.resolve('dist'),
     filename: 'index.js',
-    library: 'redux-simple-form',
-    libraryTarget: 'commonjs-module',
+    libraryTarget: 'commonjs2',
   },
   plugins: [
     new CleanWebpackPlugin(['dist']),
@@ -20,5 +19,9 @@ module.exports = {
         use: 'babel-loader',
       },
     ],
+  },
+  externals: {
+    redux: 'redux',
+    'redux-thunk': 'redux-thunk',
   },
 };
