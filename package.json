@@ -1,6 +1,6 @@
 {
   "name": "redux-duck-form",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Provides a simple API to manage your form state in the store",
   "main": "dist/index.js",
   "repository": {
